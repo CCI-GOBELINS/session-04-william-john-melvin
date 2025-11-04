@@ -8,28 +8,24 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.reminderapp.Data
 import com.example.reminderapp.R
 import com.example.reminderapp.Reminder
-import kotlin.sequences.ifEmpty
+import com.example.reminderapp.viewModel.ReminderDetailViewModel
 import kotlin.text.ifEmpty
 
 @Composable
@@ -38,6 +34,10 @@ fun ReminderDetailScreen(
     navController: NavHostController,
     onDelete: (Reminder) -> Unit
 ) {
+    val reminderDetailViewModel : ReminderDetailViewModel = viewModel()
+    reminderDetailViewModel.setReminder(reminder)
+
+    val reminder = reminderDetailViewModel.reminder.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,19 +53,19 @@ fun ReminderDetailScreen(
                 .clickable(onClick = { navController.navigate("main") })
         )
 
-        Text(reminder.name, style = MaterialTheme.typography.headlineMedium)
+        Text((reminder.value?.name ?: "reminder is null"), style = MaterialTheme.typography.headlineMedium)
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text("Status:", fontWeight = FontWeight.Bold)
             Spacer(Modifier.width(8.dp))
             Text(
-                text = if (reminder.completed) "Completed" else "Pending",
-                color = if (reminder.completed) Color(0xFF4CAF50) else Color(0xFFFFA000)
+                text = if (reminder.value?.completed ?: false) "Completed" else "Pending",
+                color = if (reminder.value?.completed ?: false) Color(0xFF4CAF50) else Color(0xFFFFA000)
             )
         }
 
         Text("Description:", fontWeight = FontWeight.Bold)
-        Text(reminder.description.ifEmpty { "No description provided." })
+        Text((reminder.value?.description ?: "null desc").ifEmpty { "No description provided." })
 
         Box(
             modifier = Modifier
@@ -79,7 +79,7 @@ fun ReminderDetailScreen(
                     .padding(16.dp)
                     .size(35.dp)
                     .clickable {
-                        onDelete(reminder)
+                        onDelete(reminder.value!!)
                     }
             )
         }
