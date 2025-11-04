@@ -2,7 +2,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class ScoreViewModel : ViewMode() {
+class ScoreViewModel : ViewModel() {
 
     private val _scoreA: MutableStateFlow<Int> = MutableStateFlow(value = 0)
     val scoreA: StateFlow<Int> = _scoreA
