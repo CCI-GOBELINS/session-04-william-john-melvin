@@ -30,10 +30,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.reminderapp.Data
 import com.example.reminderapp.R
 import com.example.reminderapp.Reminder
+import com.example.reminderapp.viewModel.HomePageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,6 +47,8 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
     val reminderId = remember { mutableIntStateOf(Data.nextId) }
     var showDialExample by remember { mutableStateOf(false) }
     var selectedTime: TimePickerState? by remember { mutableStateOf(null) }
+
+    val viewModel: HomePageViewModel = viewModel()
     Column {
         Row (modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -124,15 +128,15 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
             Button(
                 label = "Done",
                 onClick = {
-                    Data.reminders.add(Reminder(
+
+                    viewModel.add((Reminder(
                         id = reminderId.intValue,
                         name = name.value,
                         description = description.value,
                         link = "none",
                         date = date.value,
                         time = time.value,
-                        completed = false))
-                    Data.nextId++
+                        completed = false)))
 
                     navController.navigate("main")
                 },

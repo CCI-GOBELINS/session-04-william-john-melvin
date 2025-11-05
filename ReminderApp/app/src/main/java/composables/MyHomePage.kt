@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,6 +29,8 @@ import kotlin.collections.listOf
 
 @Composable
 fun Home(navController: NavHostController,modifier: Modifier = Modifier) {
+    val viewModel: HomePageViewModel=viewModel()
+    val data = viewModel.reminders.collectAsState()
 
     Box (modifier = Modifier.fillMaxSize()) {
 
@@ -42,10 +45,10 @@ fun Home(navController: NavHostController,modifier: Modifier = Modifier) {
                 navController = navController
             )
             Spacer(modifier = Modifier.height(20.dp))
-            if (Data.reminders.isNotEmpty()) {
-                for (el in Data.reminders) {
-                    if (!el.completed) {
-                        ReminderCard(el,navController = navController)
+            if (data.value.isNotEmpty()) {
+                LazyColumn {
+                    items(data.value.size){
+                        ReminderCard(data.value[it],navController = navController)
                     }
                 }
             } else {
