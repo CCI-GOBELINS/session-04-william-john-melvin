@@ -37,9 +37,9 @@ import com.example.reminderapp.Reminder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController) {
-    val name = remember { mutableStateOf("") }
-    val description = remember { mutableStateOf("") }
+fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController, reminder: Reminder?=null) {
+    val name = remember { mutableStateOf(reminder?.name ?: "") }
+    val description = remember { mutableStateOf(reminder?.description ?:"") }
     val date = remember { mutableStateOf("") }
     val time = remember { mutableStateOf("") }
     val reminderId = remember { mutableIntStateOf(Data.nextId) }
@@ -49,7 +49,12 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
         Row (modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically){
-            Text(text = "Add reminder", fontSize = 30.sp, textAlign = TextAlign.Center)
+            if (reminder == null){
+                Text(text = "Add reminder", fontSize = 30.sp, textAlign = TextAlign.Center)
+            }else{
+                Text(text = "Modify reminder", fontSize = 30.sp, textAlign = TextAlign.Center)
+            }
+
             Image(
                 painter = painterResource(id = R.drawable.ic_close_icon),
                 contentDescription = "Item Image",
@@ -121,6 +126,7 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
                 onClick = {
                     Data.reminders.add(Reminder(reminderId.intValue, name.value, date=date.value, time= time.value, description = description.value))
                     Data.nextId++
+
                     navController.navigate("main")
                 },
                 fontSize = 25.sp

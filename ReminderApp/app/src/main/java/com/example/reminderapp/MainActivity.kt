@@ -80,6 +80,14 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
+                            route = "modify-reminder/{reminderId}",
+                            arguments = listOf(navArgument("reminderId") { type = NavType.IntType })) { backStackEntry ->
+                            val reminderId = backStackEntry.arguments?.getInt("reminderId")
+                            val reminder = Data.reminders.firstOrNull { it.id == reminderId }
+                            AddReminderPage(modifier = Modifier.fillMaxWidth(), navController = navController, reminder)
+                        }
+
+                        composable(
                             route = "detail/{reminderId}",
                             arguments = listOf(navArgument("reminderId") { type = NavType.IntType })
                         ) { backStackEntry ->
