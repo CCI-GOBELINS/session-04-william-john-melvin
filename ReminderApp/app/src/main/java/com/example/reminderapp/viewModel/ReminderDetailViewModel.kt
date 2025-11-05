@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 class ReminderDetailViewModel : ViewModel(){
     private val _reminder : MutableStateFlow<Reminder?> = MutableStateFlow(null)
     val reminder : StateFlow<Reminder?> = _reminder
+
     fun setReminder(reminder: Reminder) {
         _reminder.value = reminder
     }
