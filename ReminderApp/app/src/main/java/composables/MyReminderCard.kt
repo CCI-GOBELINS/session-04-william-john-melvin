@@ -27,38 +27,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.reminderapp.Data
 import com.example.reminderapp.R
 import com.example.reminderapp.Reminder
+import com.example.reminderapp.viewModel.HomePageViewModel
 
 @Composable
-fun ReminderCard(reminder: Reminder, modifier: Modifier = Modifier, selected: Boolean = false, navController: NavHostController) {
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(selected) }
+fun ReminderCard(
+    reminder: Reminder,
+    modifier: Modifier = Modifier,
+    selected: Boolean = false,
+    onDelete: (Reminder) -> Unit,
+    navController: NavHostController,
+    viewModel: HomePageViewModel = viewModel()
+) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable {
-                reminder.completed = !selected
-            }
+            .clickable { viewModel.toggleCompletion(reminder) }
             .padding(10.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier
-            .padding(start = 10.dp)
-            .selectableGroup()
-            .selectable(
-                selected = selectedOption,
-                onClick = {
-                    onOptionSelected(!selected)
-                    reminder.completed = !selected },
-                role = Role.RadioButton
-            )) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             RadioButton(
-                selected = selectedOption,
-                onClick = null
+                selected = reminder.completed,
+                onClick = { viewModel.toggleCompletion(reminder) }
             )
             Text(
-                text = reminder.name, modifier = Modifier
+                text = reminder.name,
+                modifier = Modifier
                     .padding(10.dp)
                     .weight(1f)
             )
