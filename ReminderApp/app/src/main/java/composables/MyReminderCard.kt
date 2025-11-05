@@ -38,11 +38,10 @@ import com.example.reminderapp.viewModel.HomePageViewModel
 fun ReminderCard(
     reminder: Reminder,
     modifier: Modifier = Modifier,
-    selected: Boolean = false,
-    onDelete: (Reminder) -> Unit,
-    navController: NavHostController,
-    viewModel: HomePageViewModel = viewModel()
+    navController: NavHostController
 ) {
+    val viewModel: HomePageViewModel = viewModel()
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -50,16 +49,19 @@ fun ReminderCard(
             .padding(10.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
+
             RadioButton(
                 selected = reminder.completed,
                 onClick = { viewModel.toggleCompletion(reminder) }
             )
+
             Text(
                 text = reminder.name,
                 modifier = Modifier
                     .padding(10.dp)
                     .weight(1f)
             )
+
             Image(
                 painter = painterResource(id = R.drawable.ic_arrow_forward_icon),
                 contentDescription = "Go to detail",
@@ -69,6 +71,5 @@ fun ReminderCard(
                     .clickable { navController.navigate("detail/${reminder.id}") }
             )
         }
-
     }
 }

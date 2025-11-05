@@ -124,7 +124,14 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
             Button(
                 label = "Done",
                 onClick = {
-                    Data.reminders.add(Reminder(reminderId.intValue, name.value, date=date.value, time= time.value, description = description.value))
+                    Data.reminders.add(Reminder(
+                        id = reminderId.intValue,
+                        name = name.value,
+                        description = description.value,
+                        link = "none",
+                        date = date.value,
+                        time = time.value,
+                        completed = false))
                     Data.nextId++
 
                     navController.navigate("main")

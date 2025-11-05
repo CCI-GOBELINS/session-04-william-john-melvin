@@ -45,9 +45,7 @@ fun Home(navController: NavHostController,modifier: Modifier = Modifier) {
             if (Data.reminders.isNotEmpty()) {
                 for (el in Data.reminders) {
                     if (!el.completed) {
-                        ReminderCard(el, onDelete = { Data.reminders =
-                            (Data.reminders - el) as SnapshotStateList<Reminder>
-                        },navController = navController)
+                        ReminderCard(el,navController = navController)
                     }
                 }
             } else {

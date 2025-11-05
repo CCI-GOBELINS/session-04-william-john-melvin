@@ -32,7 +32,7 @@ fun CompletedPage(navController: NavHostController,modifier: Modifier = Modifier
         )
         for (el in Data.reminders){
             if (el.completed){
-                ReminderCard(el, selected = true,navController=navController)
+                ReminderCard(el,navController=navController)
             }
         }
     }
