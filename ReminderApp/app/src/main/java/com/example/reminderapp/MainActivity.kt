@@ -22,13 +22,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.room.PrimaryKey
 import com.example.reminderapp.ui.theme.ReminderAppTheme
 import composables.AddReminderPage
 import composables.CompletedPage
 import composables.Home
 import composables.ReminderDetailScreen
 
-class Reminder(val id: Int, val name: String, val description: String="none", val link: String="none", val date: String, val time: String, completed: Boolean = false){
+data class Reminder(@PrimaryKey val id: Int, val name: String, val description: String="none", val link: String="none", val date: String, val time: String, completed: Boolean = false){
     var completed by mutableStateOf(completed)
 }
 
@@ -65,6 +66,14 @@ class MainActivity : ComponentActivity() {
 
                         composable("add-reminder-page") {
                             AddReminderPage(modifier = Modifier.fillMaxWidth(), navController = navController)
+                        }
+
+                        composable(
+                            route = "modify-reminder/{reminderId}",
+                            arguments = listOf(navArgument("reminderId") { type = NavType.IntType })) { backStackEntry ->
+                            val reminderId = backStackEntry.arguments?.getInt("reminderId")
+                            val reminder = Data.reminders.firstOrNull { it.id == reminderId }
+                            AddReminderPage(modifier = Modifier.fillMaxWidth(), navController = navController, reminder)
                         }
 
                         composable(

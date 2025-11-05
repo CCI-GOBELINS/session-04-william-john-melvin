@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.reminderapp.Data
 import com.example.reminderapp.R
 import com.example.reminderapp.Reminder
 import com.example.reminderapp.viewModel.ReminderDetailViewModel
@@ -72,16 +74,28 @@ fun ReminderDetailScreen(
                 .fillMaxSize()
                 .padding(30.dp), contentAlignment = Alignment.BottomEnd
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_delete_icon),
-                contentDescription = "Delete Reminder",
-                modifier = Modifier
-                    .padding(16.dp)
-                    .size(35.dp)
-                    .clickable {
-                        onDelete(reminder.value!!)
-                    }
-            )
+            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+                Image(
+                    painter = painterResource(id = R.drawable.ic_delete_icon),
+                    contentDescription = "Delete Reminder",
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .size(35.dp)
+                        .clickable {
+                            onDelete(reminder.value!!)
+                        }
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_outline_edit_note),
+                    contentDescription = "Delete Reminder",
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .size(35.dp)
+                        .clickable {
+                            navController.navigate("detail/${reminder.id}")
+                        }
+                )
+            }
         }
     }
 }

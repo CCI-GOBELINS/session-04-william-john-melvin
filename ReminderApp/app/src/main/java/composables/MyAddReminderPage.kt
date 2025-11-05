@@ -37,7 +37,7 @@ import com.example.reminderapp.Reminder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController) {
+fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController, reminder: Reminder?=null) {
     val name = remember { mutableStateOf("") }
     val description = remember { mutableStateOf("") }
     val date = remember { mutableStateOf("") }
@@ -61,7 +61,7 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
         }
 
         OutlinedTextField(
-            value = name.value,
+            value = reminder?.name ?: name.value,
             label = { Box(contentAlignment = Alignment.Center, modifier = Modifier.height(25.dp)){Text(text = "Name", fontSize = 20.sp)} },
             shape = RoundedCornerShape(8.dp),
             onValueChange = { name.value = it },
@@ -69,7 +69,7 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
             textStyle = TextStyle.Default.copy(fontSize = 20.sp))
 
         OutlinedTextField(
-            value = description.value,
+            value = reminder?.description ?: description.value,
             label = { Box(contentAlignment = Alignment.Center, modifier = Modifier.height(25.dp)){Text(text = "Description", fontSize = 20.sp)} },
             shape = RoundedCornerShape(8.dp),
             onValueChange = { description.value = it },
