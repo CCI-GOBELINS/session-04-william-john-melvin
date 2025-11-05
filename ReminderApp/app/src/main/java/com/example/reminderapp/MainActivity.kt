@@ -30,7 +30,7 @@ import composables.CompletedPage
 import composables.Home
 import composables.ReminderDetailScreen
 
-@Entity
+@Entity(tableName = "reminder_table")
 data class Reminder(
     @PrimaryKey
     val id: Int,
