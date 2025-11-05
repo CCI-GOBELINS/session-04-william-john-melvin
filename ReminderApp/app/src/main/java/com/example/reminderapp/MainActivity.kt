@@ -29,6 +29,7 @@ import composables.AddReminderPage
 import composables.CompletedPage
 import composables.Home
 import composables.ReminderDetailScreen
+import dagger.hilt.android.AndroidEntryPoint
 
 @Entity(tableName = "reminder_table")
 data class Reminder(
@@ -49,6 +50,7 @@ object Data {
 
 }
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
