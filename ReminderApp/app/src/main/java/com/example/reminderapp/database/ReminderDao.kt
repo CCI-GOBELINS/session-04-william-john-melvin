@@ -15,5 +15,5 @@ interface ReminderDao {
     suspend fun deleteReminder(reminder: Reminder)
 
     @Query("SELECT * FROM reminder_table ORDER BY name ASC")
-    fun getAllReminders(): kotlinx.coroutines.flow.Flow<List<Reminder>>
+    fun getAllReminders(): List<Reminder>
 }
