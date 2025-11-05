@@ -19,7 +19,7 @@ abstract class ReminderDatabase : RoomDatabase() {
         val instance : ReminderDatabase
             get() = _INSTANCE!!
 
-        fun getInstance(context: Context): ReminderDatabase {
+        fun initDatabase(context: Context): ReminderDatabase {
             return _INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
