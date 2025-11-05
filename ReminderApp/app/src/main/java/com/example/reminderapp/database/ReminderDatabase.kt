@@ -14,18 +14,21 @@ abstract class ReminderDatabase : RoomDatabase() {
     companion object {
 
         @Volatile
-        private var INSTANCE: ReminderDatabase? = null
+        private var _INSTANCE: ReminderDatabase? = null
 
-        fun getDatabase(context: Context): ReminderDatabase {
-            return INSTANCE ?: synchronized(this) {
+        val instance : ReminderDatabase
+            get() = _INSTANCE!!
+
+        fun getInstance(context: Context): ReminderDatabase {
+            return _INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     ReminderDatabase::class.java,
                     "reminder_database"
                 ).fallbackToDestructiveMigration()
                     .build()
-                    .also { INSTANCE = it }
-                INSTANCE = instance
+                    .also { _INSTANCE = it }
+                _INSTANCE = instance
                 instance
             }
         }
