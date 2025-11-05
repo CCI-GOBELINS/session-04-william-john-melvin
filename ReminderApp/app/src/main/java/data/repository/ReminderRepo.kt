@@ -4,12 +4,12 @@ import com.example.reminderapp.database.ReminderDatabase
 import kotlinx.coroutines.flow.Flow import kotlinx.coroutines.flow.flow
 class ReminderRepository(val database: ReminderDatabase) {
 
-    suspend fun getAllScores(): Flow<List<Reminder>> = flow{
-        val scores: List<Reminder> = database.reminderDao().getAllScores()
+    suspend fun getAllReminders(): Flow<List<Reminder>> = flow{
+        val scores: List<Reminder> = database.reminderDao().getAllReminders()
         emit ( value = scores)
     }
-    suspend fun save(reminder: Reminder): Flow<Reminder> = flow {
-        reminder.reminderDao().save(reminder)
+    suspend fun insert(reminder: Reminder): Flow<Reminder> = flow {
+        database.reminderDao().insertReminder(reminder)
         emit (value = reminder)
     }
 
