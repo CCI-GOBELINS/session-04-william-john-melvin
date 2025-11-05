@@ -33,7 +33,7 @@ import com.example.reminderapp.R
 import com.example.reminderapp.Reminder
 
 @Composable
-fun ReminderCard(reminder: Reminder, modifier: Modifier = Modifier, selected: Boolean = false, onDelete: (Reminder) -> Unit, navController: NavHostController) {
+fun ReminderCard(reminder: Reminder, modifier: Modifier = Modifier, selected: Boolean = false, navController: NavHostController) {
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(selected) }
     Card(
         modifier = modifier

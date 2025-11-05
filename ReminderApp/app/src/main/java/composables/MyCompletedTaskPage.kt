@@ -32,9 +32,7 @@ fun CompletedPage(navController: NavHostController,modifier: Modifier = Modifier
         )
         for (el in Data.reminders){
             if (el.completed){
-                ReminderCard(el, selected = true, onDelete = { Data.reminders =
-                    (Data.reminders - el) as SnapshotStateList<Reminder>
-                },navController=navController)
+                ReminderCard(el, selected = true,navController=navController)
             }
         }
     }
