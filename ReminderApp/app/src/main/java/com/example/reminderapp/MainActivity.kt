@@ -29,7 +29,7 @@ import composables.CompletedPage
 import composables.Home
 import composables.ReminderDetailScreen
 
-data class Reminder(@PrimaryKey val id: Int, val name: String, val description: String="none", val link: String="none", val date: String, val time: String, completed: Boolean = false){
+class Reminder(val id: Int, var name: String, var description: String="none", var date: String, var time: String, completed: Boolean = false){
     var completed by mutableStateOf(completed)
 }
 

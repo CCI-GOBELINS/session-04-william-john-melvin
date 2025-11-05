@@ -92,7 +92,7 @@ fun ReminderDetailScreen(
                         .padding(16.dp)
                         .size(35.dp)
                         .clickable {
-                            navController.navigate("detail/${reminder.id}")
+                            navController.navigate("modify-reminder/${reminder.value?.id}")
                         }
                 )
             }

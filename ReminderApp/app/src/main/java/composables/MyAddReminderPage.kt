@@ -38,8 +38,8 @@ import com.example.reminderapp.Reminder
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController, reminder: Reminder?=null) {
-    val name = remember { mutableStateOf("") }
-    val description = remember { mutableStateOf("") }
+    val name = remember { mutableStateOf(reminder?.name ?: "") }
+    val description = remember { mutableStateOf(reminder?.description ?:"") }
     val date = remember { mutableStateOf("") }
     val time = remember { mutableStateOf("") }
     val reminderId = remember { mutableIntStateOf(-1) }
@@ -49,7 +49,12 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
         Row (modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically){
-            Text(text = "Add reminder", fontSize = 30.sp, textAlign = TextAlign.Center)
+            if (reminder == null){
+                Text(text = "Add reminder", fontSize = 30.sp, textAlign = TextAlign.Center)
+            }else{
+                Text(text = "Modify reminder", fontSize = 30.sp, textAlign = TextAlign.Center)
+            }
+
             Image(
                 painter = painterResource(id = R.drawable.ic_close_icon),
                 contentDescription = "Item Image",
@@ -61,7 +66,7 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
         }
 
         OutlinedTextField(
-            value = reminder?.name ?: name.value,
+            value = name.value,
             label = { Box(contentAlignment = Alignment.Center, modifier = Modifier.height(25.dp)){Text(text = "Name", fontSize = 20.sp)} },
             shape = RoundedCornerShape(8.dp),
             onValueChange = { name.value = it },
@@ -69,7 +74,7 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
             textStyle = TextStyle.Default.copy(fontSize = 20.sp))
 
         OutlinedTextField(
-            value = reminder?.description ?: description.value,
+            value = description.value,
             label = { Box(contentAlignment = Alignment.Center, modifier = Modifier.height(25.dp)){Text(text = "Description", fontSize = 20.sp)} },
             shape = RoundedCornerShape(8.dp),
             onValueChange = { description.value = it },
@@ -119,8 +124,15 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
             Button(
                 label = "Done",
                 onClick = {
-                    reminderId.intValue++
-                    Data.reminders.add(Reminder(reminderId.intValue, name.value, date=date.value, time= time.value, description = description.value))
+                    if (reminder == null) {
+                        reminderId.intValue++
+                        Data.reminders.add(Reminder(reminderId.intValue, name.value, date.value, time.value, description.value))
+                    } else {
+                        reminder.name = name.value
+                        reminder.description = description.value
+                        reminder.date = date.value
+                        reminder.time = time.value
+                    }
                     navController.navigate("main")
                 },
                 fontSize = 25.sp
