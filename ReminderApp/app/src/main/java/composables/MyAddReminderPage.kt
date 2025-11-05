@@ -42,7 +42,7 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
     val description = remember { mutableStateOf("") }
     val date = remember { mutableStateOf("") }
     val time = remember { mutableStateOf("") }
-    val reminderId = remember { mutableIntStateOf(-1) }
+    val reminderId = remember { mutableIntStateOf(Data.nextId) }
     var showDialExample by remember { mutableStateOf(false) }
     var selectedTime: TimePickerState? by remember { mutableStateOf(null) }
     Column {
@@ -119,8 +119,8 @@ fun AddReminderPage(modifier: Modifier = Modifier,  navController: NavController
             Button(
                 label = "Done",
                 onClick = {
-                    reminderId.intValue++
                     Data.reminders.add(Reminder(reminderId.intValue, name.value, date=date.value, time= time.value, description = description.value))
+                    Data.nextId++
                     navController.navigate("main")
                 },
                 fontSize = 25.sp
